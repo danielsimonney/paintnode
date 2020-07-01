@@ -1,0 +1,48 @@
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <link rel="stylesheet" href="/style.css" />
+
+  <script src="https://cdn.jsdelivr.net/npm/socket.io-client@2/dist/socket.io.js"></script>
+
+  <title>Document</title>
+</head>
+
+<body>
+  <%- include('parts/header') %>
+  <div>
+    <label for="head">Choississez votre couleur</label>
+    <input type="color" id="color">
+  </div>
+  <table>
+    <% for (var i =1; i <= width; i++ ) { %>
+    <tr>
+      <% for (var j =1; j <= width; j++ ) { %>
+      <td style="background-color:<%= data[i+";"+j] %>" id="<%= i+";"+j %>" onClick="reply_click(this.id)">
+      </td>
+      <% } %>
+    </tr>
+    <% } %>
+  </table>
+  <script src="/socket.io/socket.io.js"></script>
+  <script>
+    var socket = io.connect('localhost:3000', {
+      query: "padId=<%= idpad %>"
+    });
+
+    function reply_click(clicked_id) {
+      let color = document.getElementById("color").value
+      socket.emit('updatepad', clicked_id, color)
+    }
+
+    socket.on("getData", (objParam, color) => {
+      let myEl = document.getElementById(objParam.toString())
+      myEl.style.backgroundColor = color;
+    })
+  </script>
+</body>
+
+</html>

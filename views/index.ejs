@@ -1,0 +1,65 @@
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="/style.css" />
+
+  <script src="https://cdn.jsdelivr.net/npm/socket.io-client@2/dist/socket.io.js"></script>
+
+  <title>Document</title>
+</head>
+
+<body>
+  <%- include('parts/header') %>
+  <h3>Bienvenue sur paintspace mon premier projet fait en node .</h3>
+  <% if (choice === undefined) { %>
+  Que voulez vous faire ??
+  <a href="/choice/new">
+    <button>
+      Créér un nouvelle espace de dessin ??
+    </button>
+  </a>
+  <a href="/choice/join">
+    <button>
+      Rejoindre un espace déjà existant ??
+    </button>
+  </a>
+  <% } %>
+
+
+  <% if (choice === "newpad") { %>
+  <form action="/pad" method="POST">
+    <input type="text" name="name" placeholder="Enter the password here">
+    <input type="text" name="width" placeholder="Enter the width here">
+    <input type="submit" value="OK">
+  </form>
+
+  <% } %>
+
+
+  <% if (choice === "join") { %>
+  Please enter the password of the pad you want to join
+  <form action="/join" method="POST">
+    <input type="text" name="name" placeholder="add new task">
+    <input type="submit" value="OK">
+  </form>
+  <div>
+    Rejoignez votre pad
+  </div>
+  <% } %>
+
+  <% if (error !== undefined && error==="falsepass") { %>
+  <div style="background-color: red; width: 100vw;">
+    Votre mot de passe est erronée
+  </div>
+  <% } %>
+
+
+  <% if (error !== undefined && error==="accessungranted") { %>
+  <div style="background-color: red; width: 100vw;">
+    Vous n'avez pas le droit d'accéder à cette espace
+  </div>
+  <% } %>
+
+</body>

@@ -1,0 +1,19 @@
+table,
+td {
+  width: 30px;
+  height: 30px;
+  border: 1px solid #333;
+}
+
+table {
+  width: auto;
+  height: auto;
+}
+
+
+
+thead,
+tfoot {
+  background-color: #333;
+  color: #fff;
+}
