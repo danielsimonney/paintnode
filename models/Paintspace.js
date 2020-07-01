@@ -14,7 +14,6 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.TEXT,
         allowNull: false,
         get: function() {
-          console.log("lldlld");
           return JSON.parse(this.getDataValue("data"));
         },
         set: function(value) {

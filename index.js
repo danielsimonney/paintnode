@@ -33,9 +33,7 @@ io.on("connection", socket => {
   socket.on("updatepad", (position, color) => {
     Paintspace.findByPk(roomId)
       .then(paint => {
-        console.log(color);
         let newdata = JSON.parse(paint.data);
-        console.log(newdata);
         newdata[position] = color;
         paint
           .update({
