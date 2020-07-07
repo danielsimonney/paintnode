@@ -1,6 +1,7 @@
 const express = require("express"),
-  { sequelize, Paintspace } = require("./database"),
+  { sequelize, Paintspace, Films, Genres } = require("../database"),
   router = express.Router();
+const sqs = require("sequelize-querystring").withSymbolicOps(sequelize);
 
 router.get("/", (request, response) => {
   response.render("index", {

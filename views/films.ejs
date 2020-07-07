@@ -1,0 +1,156 @@
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <link rel="stylesheet" href="/style.css" />
+
+  <script src="https://cdn.jsdelivr.net/npm/socket.io-client@2/dist/socket.io.js"></script>
+
+  <title>Document</title>
+</head>
+
+<body>
+
+  <label for="genre">Filtrer par genre:</label>
+  <select id="genre">
+    <option value="default">Sans filtre</option>
+    <% for (var i =1; i <= genreList.length; i++ ) { %>
+    <option value="<%= genreList[i-1].nom %>"><%= genreList[i-1].nom %></option>
+    <% } %>
+  </select>
+  <label for="increment-choose">Choissisez le nombre de films par page à affiche:</label>
+  <select id="increment-choose">
+    <option value="10">par défaut (10)</option>
+    <option value="50">50</option>
+    <option value="100">100</option>
+  </select>
+
+
+
+  <div id="films"></div>
+
+  <div id="changePage">
+    <button id="lastPage">Page précédente</button>
+    <button id="nextPage">Page suivante</button>
+  </div>
+
+
+  <script>
+    fetch("/api/test", {
+      method: "GET"
+    }).then(res => {
+      res.json().then(json => {
+        createFilmDiv(json);
+      });
+    });
+
+    var currentGenre = undefined;
+    var currentOffsetmin = 0;
+    var currentLeap = 10;
+
+    function fetchFilms() {
+      let urlTofetch =
+        "http://localhost:3000/api/films?limit=" +
+        currentLeap +
+        "&offset=" +
+        currentOffsetmin + (currentGenre !== undefined ? ("&genre=" + currentGenre) : "");
+      console.log(urlTofetch);
+      fetch(urlTofetch, {
+        method: "GET"
+      }).then(res => {
+        res.json().then(json => {
+          console.log(json.rows);
+          createFilmDiv(json);
+        });
+      });
+    };
+
+    document
+      .querySelector("#increment-choose")
+      .addEventListener("change", function () {
+        currentLeap = this.value;
+        fetchFilms();
+      });
+
+    document.querySelector("#nextPage").addEventListener("click", function () {
+      currentOffsetmin = parseInt(currentOffsetmin + currentLeap);
+      fetchFilms();
+    });
+
+    document.querySelector("#genre").addEventListener("change", function () {
+      currentOffsetmin = 0;
+      if (this.value === "default") {
+        currentGenre = undefined
+      } else {
+        currentGenre = this.value;
+      }
+      fetchFilms();
+    });
+
+
+    function handleButton(count) {
+      var buttonContainer = document.querySelector("#changePage")
+      if (document.querySelector("#nextPage") !== null) {
+        let buttonNext = document.querySelector("#nextPage");
+        if (lastPage(count)) {
+          buttonNext.parentNode.removeChild(buttonNext);
+        }
+      } else {
+        if (!lastPage(count)) {
+          var buttonNext = document.createElement("button");
+          buttonNext.setAttribute('id', 'nextPage')
+          var content = document.createTextNode("Page suivante");
+          buttonNext.appendChild(content)
+          buttonContainer.appendChild(buttonNext)
+          buttonNext.onclick = function () {
+            currentOffsetmin = parseInt(currentOffsetmin + currentLeap);
+            fetchFilms();
+          };
+        }
+      }
+
+      if (document.querySelector("#lastPage") !== null) {
+        let buttonLast = document.querySelector("#lastPage");
+        if (firstPage(count)) {
+          buttonLast.parentNode.removeChild(buttonLast);
+        }
+      } else {
+        if (!firstPage(count)) {
+          var buttonLast = document.createElement("button");
+          buttonLast.setAttribute('id', 'lastPage')
+          var content = document.createTextNode("Page précédente");
+          buttonLast.appendChild(content)
+          buttonContainer.appendChild(buttonLast)
+          buttonLast.onclick = function () {
+            currentOffsetmin = parseInt(currentOffsetmin - currentLeap);
+            fetchFilms();
+          };
+        }
+      }
+    }
+
+    function firstPage(count) {
+      return currentOffsetmin - currentLeap < 0;
+    }
+
+    function lastPage(count) {
+      return currentOffsetmin + currentLeap > count;
+    }
+
+    function createFilmDiv(data) {
+      handleButton(data.count)
+      const content = document.querySelector("#films");
+      content.innerHTML = "";
+      for (const film of data.rows) {
+        var newDiv = document.createElement("div");
+        var title = document.createTextNode(film.titre);
+        newDiv.appendChild(title);
+        content.appendChild(newDiv);
+      }
+    }
+  </script>
+</body>
+
+</html>

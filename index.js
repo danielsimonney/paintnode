@@ -1,7 +1,8 @@
 const express = require("express"),
   bodyParser = require("body-parser"),
   session = require("express-session"),
-  home = require("./routes");
+  home = require("./routes/paint");
+film = require("./routes/film");
 
 const { sequelize, Paintspace } = require("./database");
 
@@ -57,5 +58,5 @@ app.use(express.static("public"));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(home);
-
+app.use(film);
 server.listen(3000);

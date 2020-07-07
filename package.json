@@ -14,9 +14,11 @@
     "express-router": "0.0.1",
     "express-session": "^1.17.1",
     "io": "^1.0.1",
+    "mysql": "^2.18.1",
     "mysql2": "^2.1.0",
     "nodemon": "^2.0.4",
     "sequelize": "^6.1.0",
+    "sequelize-querystring": "^0.10.0",
     "socket.io": "^2.3.0"
   }
 }
