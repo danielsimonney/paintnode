@@ -7,9 +7,6 @@ router.get("/api/test", async (request, response) => {
   let films = await Films.findAndCountAll({
     offset: 0,
     limit: 10,
-    where: {
-      "$genre.nom$": "comedy"
-    },
     include: [
       {
         model: Genres,
@@ -35,7 +32,6 @@ router.get("/api/films", async (request, response) => {
   let offset = parseInt(request.query.offset);
   let limit = parseInt(request.query.limit);
   let genre = request.query.genre;
-  console.log(request.query.filter);
   try {
     let films = await Films.findAndCountAll({
       offset: offset,

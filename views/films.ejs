@@ -145,7 +145,7 @@
       content.innerHTML = "";
       for (const film of data.rows) {
         var newDiv = document.createElement("div");
-        var title = document.createTextNode(film.titre);
+        var title = document.createTextNode(film.titre + "   ||  " + film.genre);
         newDiv.appendChild(title);
         content.appendChild(newDiv);
       }
