@@ -10,17 +10,41 @@ const sequelize = new Sequelize("paint", "root", "root", {
   }
 });
 const Paintspace = require("./models/Paintspace")(sequelize, DataTypes);
-const Films = require("./models/films")(sequelize, DataTypes);
-const Genres = require("./models/genres")(sequelize, DataTypes);
+const Films = require("./models/Film")(sequelize, DataTypes);
+const Genre = require("./models/Genre")(sequelize, DataTypes);
+const User = require("./models/User")(sequelize, DataTypes);
+const Distributor = require("./models/Distributor")(sequelize, DataTypes);
 
-Genres.hasMany(Films);
-Films.belongsTo(Genres);
-
-sequelize.sync();
+Genre.hasMany(Films, {
+  foreignKey: {
+    name: "id_genre",
+    allowNull: true
+  }
+});
+Films.belongsTo(Genre, {
+  foreignKey: {
+    name: "id_genre",
+    allowNull: true
+  }
+});
+Distributor.hasMany(Films, {
+  foreignKey: {
+    name: "id_distributeur",
+    allowNull: true
+  }
+});
+Films.belongsTo(Distributor, {
+  foreignKey: {
+    name: "id_distributeur",
+    allowNull: true
+  }
+});
 
 module.exports = {
   sequelize: sequelize,
   Paintspace: Paintspace,
   Films: Films,
-  Genres: Genres
+  Genre: Genre,
+  User: User,
+  Distributor: Distributor
 };

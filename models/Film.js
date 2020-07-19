@@ -2,7 +2,7 @@
 
 module.exports = function(sequelize, DataTypes) {
   return sequelize.define(
-    "films",
+    "film",
     {
       id_film: {
         type: DataTypes.INTEGER(11),
@@ -41,10 +41,13 @@ module.exports = function(sequelize, DataTypes) {
         type: DataTypes.INTEGER(11),
         allowNull: true,
         comment: "null"
+      },
+      is_diffused: {
+        type: DataTypes.INTEGER(11),
+        allowNull: false,
+        comment: "null"
       }
     },
-    {
-      tableName: "films"
-    }
+    { freezeTableName: true, tableName: "film" }
   );
 };
