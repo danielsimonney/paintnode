@@ -26,6 +26,6 @@
     "sequelize": "^6.1.0",
     "sequelize-querystring": "^0.10.0",
     "sha1": "^1.1.1",
-    "socket.io": "^2.3.0"
+    "socket.io": "^2.5.0"
   }
 }
