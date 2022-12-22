@@ -18,7 +18,7 @@
     "express-session": "^1.17.1",
     "express-validator": "^6.6.0",
     "io": "^1.0.1",
-    "jsonwebtoken": "^8.5.1",
+    "jsonwebtoken": "^9.0.0",
     "moment": "^2.27.0",
     "mysql": "^2.18.1",
     "mysql2": "^2.1.0",
